@@ -4,15 +4,15 @@ public class BankAccount {
   private int accountID;
   private String password;
   //constructor
-  public BankAccount(int a, String b) {
+  public BankAccount(int accountID, String password) {
     balance = 0;
-    accountID = a;
-    password = b;
+    this.accountID = accountID;
+    this.password = password;
   }
   //methods
   public String toString() {
-    return (Integer.toString(accountID)
-    + "\t" + Double.toString(balance));
+    return ("#" + Integer.toString(accountID)
+    + "\t" + "$" + Double.toString(balance));
   }
   public double getBalance() {
     return balance;
@@ -38,5 +38,17 @@ public class BankAccount {
       balance -= amount;
       return true;
     }
+  }
+  //new methods!
+  private boolean authenticate(String password) {
+    return password.equals(this.password);
+  }
+  public boolean transferTo(BankAccount other, double amount, String password) {
+    if (authenticate(password) && withdraw(amount)) {
+      if (other.deposit(amount)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
